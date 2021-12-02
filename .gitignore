@@ -1,4 +1,4 @@
-# History files
+# History/env files
 \.vscode*
 \.pytest_cache*
 
