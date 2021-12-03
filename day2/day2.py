@@ -75,7 +75,7 @@ class Navigate_aim(object):
 		return self.forward, self.ud
 
 # ./day2/
-data = np.genfromtxt('./day2/data.txt', delimiter=',', dtype=None, encoding="utf-8")
+data = np.genfromtxt('data.txt', delimiter=',', dtype=None, encoding="utf-8")
 position = Navigate_aim(data)
 horizontal, vertical = position.move()
 print(f'Horizontal position: \t {horizontal}')
