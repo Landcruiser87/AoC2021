@@ -47,7 +47,7 @@ def least_common(data:np.array, x:int)->[int, int]:
 		else:
 			return mx.argmin(), mx.min()
 	else:
-		return mx.argmin(), mx.max()
+		return mx.argmin(), mx.min()
 
 def filter_array(data:np.array, mc_num:int, x:int)->np.array:
 	return data[np.where(data[:, x] == mc_num)]
