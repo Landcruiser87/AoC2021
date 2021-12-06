@@ -9,10 +9,10 @@
 #will be the next part. 
 
 import numpy as np
-
-def data_load():
+# ./day4/
+def data_load()->[np.array, np.array]:
 	data = []
-	with open('.\day4\data.txt', 'r') as f:
+	with open('./day4/data.txt', 'r') as f:
 		data = f.read().splitlines()
 		markers = np.array([int(s) for s in data[0].split(",")])
 		bingo_boards = [[list(map(int, s.split())) for s in line.splitlines()] for line in data[1:]]
@@ -21,19 +21,19 @@ def data_load():
 
 	return markers, bingo_boards
 
-def is_col_win(marks, board):
+def is_col_win(marks:list, board:np.array)->bool:
 	for i in range(5):
 		if set(marks) >= set(board[:,i]):
 			return True
 	return False
 
-def is_row_win(marks, board):
+def is_row_win(marks:list, board:np.array)->bool:
 	for i in range(5):
 		if set(marks) >= set(board[i,:]):
 			return True
 	return False
 
-def is_win(marks, board):
+def is_win(marks:list, board:np.array)->bool:
 	col_check = is_col_win(marks, board)
 	row_check = is_row_win(marks, board)
 	if col_check or row_check:
@@ -41,12 +41,48 @@ def is_win(marks, board):
 	else:
 		return False
 
+def run_the_things():
+	for x in range(1, markers.shape[0]):
+		for board in range(0, bingo_boards.shape[2]):
+			if is_win(markers[:x], bingo_boards[:,:,board]):
+				unmarked_sum = sum(set(bingo_boards[:, :, board].flatten()) - set(markers[:x]))
+				print(unmarked_sum * markers[x-1])
+				quit()
+
 
 markers, bingo_boards = data_load()
+run_the_things()
 
-for x in range(1, len(markers)):
-	for board in range(0, bingo_boards.shape[2]):
-		if is_win(markers[0:x], bingo_boards[:,:,board]):
-			unmarked_sum = sum(set(bingo_boards[:, :, board].flatten()) - set(markers[0:x]))
-			print(unmarked_sum * markers[x-1])
-			exit(0)
+
+# Part B
+
+#Now we want to let the giant squid win, because well he's a giant squid. 
+#So we need to find the last board that could produce a win. 
+#Once we find that last board, multiply it by the sum of the 
+#remaining unmarked numbers in its array.
+
+
+def run_the_other_things(markers:np.array, bingo_boards:np.array):
+	win_set = set()
+	board_set = set(range(0, bingo_boards.shape[2]))
+
+	#Runs through each marker
+	for x in range(0, markers.shape[0]):
+		# For each marker, runs through all 100 boards
+		for board in range(0, bingo_boards.shape[2]):
+			# If the board is a win, add it to the win set
+			if is_win(markers[:x], bingo_boards[:,:,board]):
+				win_set.add(board)
+				# win_set = win_set | set([board])
+				#Look at the difference between the full board_set ID's
+				#and the win set ID's
+				set_diff = list(board_set - win_set)
+				#When all id's exist in the win set, we have the last board. 
+				if len(set_diff) == 0:
+					unmarked_sum = sum(set(bingo_boards[:, :, board].flatten()) - set(markers[:x]))
+					print(unmarked_sum * markers[x-1])
+					quit()
+					
+
+run_the_other_things(markers, bingo_boards)
+
