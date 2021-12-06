@@ -53,7 +53,7 @@ markers, bingo_boards = data_load()
 SolutionA = run_the_things()
 print(f"Solution for Part 1: {SolutionA}")
 
-# Part B
+# Part 2
 
 #Now we want to let the giant squid win, because well he's a giant squid. 
 #So we need to find the last board that could produce a win. 
