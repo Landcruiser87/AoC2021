@@ -46,13 +46,12 @@ def run_the_things():
 		for board in range(0, bingo_boards.shape[2]):
 			if is_win(markers[:x], bingo_boards[:,:,board]):
 				unmarked_sum = sum(set(bingo_boards[:, :, board].flatten()) - set(markers[:x]))
-				print(unmarked_sum * markers[x-1])
-				quit()
+				return (unmarked_sum * markers[x-1])
 
 
 markers, bingo_boards = data_load()
-run_the_things()
-
+SolutionA = run_the_things()
+print(f"Solution for Part 1: {SolutionA}")
 
 # Part B
 
@@ -67,7 +66,7 @@ def run_the_other_things(markers:np.array, bingo_boards:np.array):
 	board_set = set(range(0, bingo_boards.shape[2]))
 
 	#Runs through each marker
-	for x in range(0, markers.shape[0]):
+	for x in range(1, markers.shape[0]):
 		# For each marker, runs through all 100 boards
 		for board in range(0, bingo_boards.shape[2]):
 			# If the board is a win, add it to the win set
@@ -80,9 +79,10 @@ def run_the_other_things(markers:np.array, bingo_boards:np.array):
 				#When all id's exist in the win set, we have the last board. 
 				if len(set_diff) == 0:
 					unmarked_sum = sum(set(bingo_boards[:, :, board].flatten()) - set(markers[:x]))
-					print(unmarked_sum * markers[x-1])
-					quit()
+					return (unmarked_sum * markers[x-1])
 					
 
 run_the_other_things(markers, bingo_boards)
+SolutionB = run_the_other_things(markers, bingo_boards)
+print(f"Solution for Part 2: {SolutionB}")
 
