@@ -37,8 +37,13 @@ print(f'Solution to part A: {run_part_A()}')
 #Now our crabs are gettin fiesty with our calculations. 
 #Apparently we didn't take into account crab fuel consumption. 
 
-#So now we need to figure out how the crabs move
+#For every crab's one movevment, the next costs twice as much
+#one move costs 1 fuel
+#two moves cost 3 fuel
+#three moves cost 6 fuel
+#four moves cost 10 fuel
 
+#So, just add in a cost factor for that by squaring it, add the difference and divide by 2
 
 def run_part_B()->int:
 	data = data_load()
