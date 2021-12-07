@@ -70,6 +70,7 @@ def run_part_B():
 			
 		fish_counter[6] += zero_town
 		fish_counter[8] += zero_town
+		
 	return sum(fish_counter.values())
 
 print(f'Solution to part B: {run_part_B()}')
