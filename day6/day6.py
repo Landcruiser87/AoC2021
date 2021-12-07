@@ -13,36 +13,59 @@
 
 import numpy as np
 
-def data_load():
+def data_load()->list:
 	with open('./day6/data.txt', 'r') as f:
 		data = f.read().split(",")
 		data = [int(x) for x in data]
 	return data
 
-data = data_load()
-# data = [3,4,3,1,2]
-days = 80
+def run_part_A():
+	data = data_load()
+	# data = [3,4,3,1,2]
+	days = 80
 
-# print(f'Initial State : {data}')
-while days > 0:
-	for i in range(len(data)):
-		if data[i] == 0:
-			data[i] = 6
-			data.append(8)
-		else:
-			data[i] -= 1
+	# print(f'Initial State : {data}')
+	while days > 0:
+		for i in range(len(data)):
+			if data[i] == 0:
+				data[i] = 6
+				data.append(8)
+			else:
+				data[i] -= 1
 
-	days -= 1
-	# print(f'After day {abs(days-18)} : {data}')
+		days -= 1
+		# print(f'After day {abs(days-18)} : {data}')
 	
+	return len(data)
 
-print(f'Solution to part A: {len(data)}')
+print(f'Solution to part A: {run_part_A()}')
 
 # Part B
 
 #Well now these fish are out of control.  
 #They live forever and have unlimited food and space. 
 #How many lanternfish after 256 days.  
+from collections import Counter
+
+def run_part_B():
+	data = data_load()
+	# data = [3,4,3,1,2]
+	days = 256
+
+	fish_counter = Counter(data)
+
+	for day in range(days):
+		#Need to track zeros each day
+		zero_town = fish_counter[0]
+		#iterate through the possible vals. 
+		for x in range(1, 10):
+			
+			fish_counter[x - 1] = fish_counter[x]
+		fish_counter[6] += zero_town
+		fish_counter[8] += zero_town
+	return sum(fish_counter.values())
+
+print(f'Solution to part B: {run_part_B()}')
 
 
 
