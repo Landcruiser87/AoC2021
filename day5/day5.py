@@ -44,25 +44,24 @@ def add_to_grid(grid:np.array, point:tuple):
 def calc_grid(grid:np.array)-> int:
 	return len(np.where(grid > 1)[0])
 
-data = data_load()
-grid = np.zeros((1000,1000), dtype=int)
 
-for line in data:
-	#Check for straightness
-	if straight_check(line):
-		line_points = calc_partA_points(line)
-		[add_to_grid(grid, p) for p in line_points]
+def run_partA():
+	data = data_load()
+	grid = np.zeros((1000,1000), dtype=int)
 
-print(calc_grid(grid))
+	for line in data:
+		if straight_check(line):
+			line_points = calc_partA_points(line)
+			[add_to_grid(grid, p) for p in line_points]
+	return calc_grid(grid)
 
+SolutionA = run_partA()
+print(f"Solution for Part 1: {SolutionA}")
 
 
 #Part B
 
 #Now we have to calculate the diagonals.  Time for a new calc_points function
-
-data = data_load()
-grid = np.zeros((1000,1000), dtype=int)
 
 
 def calc_partB_points(line:np.array)-> np.array:
@@ -113,10 +112,14 @@ def gimme_dat_diag(x1, y1, x2, y2):
 	di_arr = np.stack([dxx, dyy], axis=1)
 	return di_arr
 
-for line in data:
-# line = [60, 140, 96, 104]
-	line_points = calc_partB_points(line)
-	[add_to_grid(grid, p) for p in line_points]
+def run_partB():
+	data = data_load()
+	grid = np.zeros((1000,1000), dtype=int)
+	for line in data:
+	# line = [60, 140, 96, 104]
+		line_points = calc_partB_points(line)
+		[add_to_grid(grid, p) for p in line_points]
+	return calc_grid(grid)
 
-print(calc_grid(grid))
-
+SolutionB = run_partB()
+print(f"Solution for Part 2: {SolutionB}")
