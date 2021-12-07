@@ -76,7 +76,7 @@ def calc_partB_points(line:np.array)-> np.array:
 		points = gimme_dat_diag(x1, y1, x2, y2)
 	return points
 
-def gimme_dat_diag(x1, y1, x2, y2):
+def gimme_dat_diag(x1:int, y1:int, x2:int, y2:int)-> np.array:
 	#Generate a list of points contained in diagonal line
 	dx = abs(x2 - x1)
 	dy = abs(y2 - y1)
@@ -116,7 +116,6 @@ def run_partB():
 	data = data_load()
 	grid = np.zeros((1000,1000), dtype=int)
 	for line in data:
-	# line = [60, 140, 96, 104]
 		line_points = calc_partB_points(line)
 		[add_to_grid(grid, p) for p in line_points]
 	return calc_grid(grid)
