@@ -59,7 +59,8 @@ def run_part_B():
 		zero_town = fish_counter[0]
 		#iterate through the possible vals. 
 		for x in range(1, 10):
-			
+			#Logic is:
+			#If fish never die, we
 			fish_counter[x - 1] = fish_counter[x]
 		fish_counter[6] += zero_town
 		fish_counter[8] += zero_town
