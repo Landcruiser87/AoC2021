@@ -38,13 +38,15 @@ def run_part_A():
 	
 	return len(data)
 
-print(f'Solution to part A: {run_part_A()}')
+# print(f'Solution to part A: {run_part_A()}')
 
 # Part B
 
 #Well now these fish are out of control.  
 #They live forever and have unlimited food and space. 
 #How many lanternfish after 256 days.  
+
+#Ran into a lot of memory problems so wound up going with a Counter() instead. 
 from collections import Counter
 
 def run_part_B():
@@ -55,13 +57,17 @@ def run_part_B():
 	fish_counter = Counter(data)
 
 	for day in range(days):
-		#Need to track zeros each day
+		#Get the counts of zero in fish_counter.
 		zero_town = fish_counter[0]
-		#iterate through the possible vals. 
+
+		#Next iterate through the possible vals. 
+		#For each possible val, set the current value to the one less in the index. 
+		#Which should be the valid count for that index as its iterating down each fish timer, and adding zeros for every day based on 
+		#the previous days zero count. 
+
 		for x in range(1, 10):
-			#Logic is:
-			#If fish never die, we
 			fish_counter[x - 1] = fish_counter[x]
+			
 		fish_counter[6] += zero_town
 		fish_counter[8] += zero_town
 	return sum(fish_counter.values())
