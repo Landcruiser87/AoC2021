@@ -45,7 +45,9 @@ print(f'Solution to part A: {run_part_A()}')
 #They live forever and have unlimited food and space. 
 #How many lanternfish after 256 days.  
 
-#Ran into a lot of memory problems so wound up going with a Counter() instead. 
+#Ran into a lot of memory problems with list implmentation
+#so wound up going with a Counter() instead. 
+
 from collections import Counter
 
 def run_part_B():

@@ -54,7 +54,7 @@ def run_part_B()->int:
 		for crab in data:
 			diffs = abs(crab - crab_line)
 			fuel_cost += (((diffs**2) + diffs)//2)
-		fuel_dict[crab_line] = fuel_cost
+		fuel_dict[crab_line] = fuel_cost 
 
 	return min(fuel_dict.values())
 

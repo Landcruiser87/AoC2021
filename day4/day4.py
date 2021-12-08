@@ -82,7 +82,6 @@ def run_the_other_things(markers:np.array, bingo_boards:np.array):
 					return (unmarked_sum * markers[x-1])
 					
 
-run_the_other_things(markers, bingo_boards)
 SolutionB = run_the_other_things(markers, bingo_boards)
 print(f"Solution for Part 2: {SolutionB}")
 
