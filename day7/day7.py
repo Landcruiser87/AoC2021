@@ -12,8 +12,8 @@ import numpy as np
 
 # ./day7/
 def data_load()->list:
-	with open('./day7/data.txt', 'r') as f:
-		data = f.read().split(",")
+	with open('data.txt', 'r') as f:
+		data = f.read().split("\n")
 		data = [int(x) for x in data]
 	return data
 
