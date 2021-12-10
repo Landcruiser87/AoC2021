@@ -63,9 +63,6 @@ def data_load()->np.ndarray:
 		outputs = [data[i].split("|")[1].strip() for i in range(len(data))]
 	return inputs, outputs
   
-
-# test = ['acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab', 'cdfeb fcadb cdfeb cdbaf']
-# inputs, outputs = test[0], test[1]
 def run_part_A()->int:
 	count_dict = {k:0 for k in range(9)}
 	inputs, outputs = data_load()
@@ -82,7 +79,7 @@ def run_part_A()->int:
 				count_dict[8] += 1
 	return sum(count_dict.values())
 
-# print(f'Solution to part A: {run_part_A()}')
+print(f'Solution to part A: {run_part_A()}')
 
 
 #Part B
