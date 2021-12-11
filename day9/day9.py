@@ -28,14 +28,8 @@ import numpy as np
 def data_load()->list:
 	with open('./day9/data.txt', 'r') as f:
 		data = f.read().splitlines()
-	return data
-
-def make_grid(data:list)->np.array:
-	#convert single string to 10x10 array
-	grid = [int(line) for line in data]
-	grid = np.vstack([grid[i:i+10] for i in range(0, len(grid), 10)])
-	
-	return grid
+		arr = np.array([[int(x) for x in list(line)] for line in data])
+	return arr
 
 def height(board):
     return len(board)
@@ -71,27 +65,17 @@ def is_low_point(grid:np.array, x:int, y:int)->bool:
 	return True
 
 def run_part_A()->int:
-	grids = data_load()
+	grid = data_load()
 	result = 0
-	for grid_id, grid in enumerate(grids):
-		grid = make_grid(grid)
-		print(f'Grid:{grid_id}\n{grid}')
-		print(f'Shape:\n{grid.shape}')
+	print(f'Grid Shape:\n{grid.shape}')
 
-		#Loop through coordinates.  Top left is 0,0
-		ind_grid_risk = 0
-		for x in range(grid.shape[0]):
-			for y in range(grid.shape[1]):
-
-				#Test for lowpoint
-				if is_low_point(grid, x, y):
-					print(f'Low point at {x}, {y}: Risk={grid[x,y]+1}')
-					ind_grid_risk += grid[x,y]+1
-					result += grid[x,y] + 1
-					grid[x,y] = -10
-		print(f'Grid {grid_id} Risk Score: {ind_grid_risk}')			
-		print(f'Grid:\n{grid}')
-		print(f'Total sum: {result}')
+	#Loop through coordinates.  Top left is 0,0
+	for x in range(grid.shape[0]):
+		for y in range(grid.shape[1]):
+			#Test for lowpoint
+			if is_low_point(grid, x, y):
+				# print(f'Low point at {x}, {y}: Risk={grid[x,y]+1}')
+				result += grid[x,y] + 1
 	return result
 
 print(f'Part A Solution: {run_part_A()}')
