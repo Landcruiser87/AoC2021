@@ -30,8 +30,12 @@ def data_load()->list:
 		data = f.read().splitlines()
 	return data
 
-def make_grid(grid:list)->np.array:
-	return np.vstack([np.fromiter(grid[i:i+10], dtype=int) for i in range(0, len(grid), 10)])
+def make_grid(data:list)->np.array:
+	#convert single string to 10x10 array
+	grid = [int(line) for line in data]
+	grid = np.vstack([grid[i:i+10] for i in range(0, len(grid), 10)])
+	
+	return grid
 
 def height(board):
     return len(board)
@@ -86,7 +90,8 @@ def run_part_A()->int:
 					result += grid[x,y] + 1
 					grid[x,y] = -10
 		print(f'Grid {grid_id} Risk Score: {ind_grid_risk}')			
-		print(f'Grid:\n{grid}')			
+		print(f'Grid:\n{grid}')
+		print(f'Total sum: {result}')
 	return result
 
 print(f'Part A Solution: {run_part_A()}')
