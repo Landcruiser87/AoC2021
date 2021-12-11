@@ -146,7 +146,7 @@ def decoder_ring(in_codes:str, wiring_dict:dict, update_dict:dict, known_code:li
 
 		#Get the letters from wiring_dict that are unindentified.
 		wires_to_switch = [letter for letter in dict_code if letter not in update_dict.values()]
-
+	
 		# Check to make sure the wires lengths match. 
 		if len(wires_to_map) != len(wires_to_switch):
 			continue
