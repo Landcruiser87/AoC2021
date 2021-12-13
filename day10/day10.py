@@ -58,7 +58,7 @@ def run_part_A()->int:
 	
 	return score
 
-# print(f"Solution for Part A: {run_part_A()}")
+print(f"Solution for Part A: {run_part_A()}")
 
 # Part 2
 def run_part_B()->int:
@@ -85,14 +85,3 @@ def run_part_B()->int:
 	return sorted(final_scores)[len(final_scores)//2]
 
 print(f'Solution for Part B: {run_part_B()}')
-
-#1 [({(<(())[]>[[{[]{<()<>>
-#2 [(()[<>])]({[<{<<[]>>(
-#3 {([(<{}[<>[]}>{[]{[(<()>
-#4 (((({<>}<{<{<>}{[]{[]{}
-#5 [[<[([]))<([[{}[[()]]]
-#6 [{[{({}]{}}([{[{{{}}([]
-#7 {<[[]]>}<{[{[{[]{()[[[]
-#8 [<(<(<(<{}))><([]([]()
-#9 <{([([[(<>()){}]>(<<{{
-#10 <{([{{}}[<[[[<>{}]]]>[]]
