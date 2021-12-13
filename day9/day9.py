@@ -69,7 +69,7 @@ def is_low_point(grid:np.array, x:int, y:int)->bool:
 def run_part_A()->int:
 	grid = data_load()
 	result = 0
-	print(f'Grid Shape:\n{grid.shape}')
+	# print(f'Grid Shape:\n{grid.shape}')
 
 	#Loop through coordinates.  Top left is 0,0
 	for x in range(grid.shape[0]):
