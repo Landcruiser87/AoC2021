@@ -87,7 +87,6 @@ print(f'Part A Solution: {run_part_A()}')
 def run_part_B()->int:
 	grid = data_load()
 	lowpoints = []
-	# print(f'Grid Shape:\n{grid.shape}')
 
 	for x in range(grid.shape[0]):
 		for y in range(grid.shape[1]):
@@ -130,6 +129,7 @@ def run_part_B()->int:
 					if grid[coords['x'], coords['y']] != 9:
 						basin.append((coords['x'], coords['y']))
 		basin_group += 1
+
 	grid_counts = Counter(basin_grid.flatten())
 	grid_counts = grid_counts.most_common(4)
 	grid_counts.pop(0)
