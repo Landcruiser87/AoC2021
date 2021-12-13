@@ -24,6 +24,8 @@
 # 3.  Sum up the risk levels of all low points.  
 
 import numpy as np
+from collections import Counter
+
 
 def data_load()->list:
 	with open('./day9/data.txt', 'r') as f:
@@ -79,3 +81,58 @@ def run_part_A()->int:
 	return result
 
 print(f'Part A Solution: {run_part_A()}')
+
+# Part 2
+
+def run_part_B()->int:
+	grid = data_load()
+	lowpoints = []
+	# print(f'Grid Shape:\n{grid.shape}')
+
+	for x in range(grid.shape[0]):
+		for y in range(grid.shape[1]):
+			if is_low_point(grid, x, y):
+					lowpoints.append((x,y))
+				# print(f'Low point at {x}, {y}:  Risk={grid[x,y]+1}')
+
+	#zero grid for tracking basins.
+	basin_grid = np.zeros(grid.shape, dtype=int)
+	basin_group = 1
+
+	for row, col in lowpoints:
+		#Input:  List of lowpoints. 
+		#Task: Label each basin tying it to its low point
+		#Want to iterate outward from lowpoint checking 2 things. 
+			#Whether its on the board. 
+			#Whether its a 9
+		#Label each neighboring point with the basin group id. 
+
+		basin =  [(row,col)]
+		beenthere = set()
+		
+		while len(basin) > 0:
+			row, col = basin.pop(0)
+			if (row, col) in beenthere:
+				continue
+			beenthere.add((row, col))
+
+			basin_grid[row,col] = basin_group
+
+			#Add neighbors to the basin
+			directions = {
+				'N': {'x': row-1, 'y': col},
+				'S': {'x': row+1, 'y': col},
+				'E': {'x': row, 'y': col+1},
+				'W': {'x': row, 'y': col-1}
+				}
+			for direction, coords in directions.items():
+				if on_board(grid, coords['x'], coords['y']) and (coords['x'], coords['y']) not in beenthere:
+					if grid[coords['x'], coords['y']] != 9:
+						basin.append((coords['x'], coords['y']))
+		basin_group += 1
+	grid_counts = Counter(basin_grid.flatten())
+	grid_counts = grid_counts.most_common(4)
+	grid_counts.pop(0)
+	return (grid_counts[0][1]*grid_counts[1][1]*grid_counts[2][1])
+			
+print(f'Part B Solution: {run_part_B()}')
