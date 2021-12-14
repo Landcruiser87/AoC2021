@@ -13,7 +13,7 @@
 import numpy as np
 # ./day11/
 def data_load()->list:
-	with open('./day11/data.txt', 'r') as f:
+	with open('./day11/test_data.txt', 'r') as f:
 		data = f.read().splitlines()
 		arr = np.array([[int(x) for x in list(line)] for line in data])
 	return arr
@@ -36,32 +36,31 @@ def raise_outer_octopi(data:np.array, row:int, col:int)->np.array:
 	return data
 
 def flash_check(data:np.array)->np.array:
-	id_nine = list(zip(np.where(data > 9)[0], np.where(data > 9)[1]))
-	flashed_ocotpi = set()
-	if id_nine != []:
-		while id_nine:
-			row, col = id_nine.pop(0)
-			if (row, col) not in flashed_ocotpi:
-				flashed_ocotpi.add((row, col))
-				raise_outer_octopi(data, row, col)
-				data[row, col] = 0
-				# print("\n", (row, col), "\n")
-				# print(data)
-		for row, col in flashed_ocotpi:
-			data[row, col] = 0
-		data = np.where(data > 9, 0, data)
+	data += 1
+	to_analyze = list(zip(np.where(data > 9)[0], np.where(data > 9)[1]))
+	flashed = set(to_analyze)
+	while to_analyze:
+			row, col = to_analyze.pop()
+			raise_outer_octopi(data, row, col)
+			if data[row, col]> 9 and (row, col) not in flashed:	
+				
+				flashed.add((row, col))
+				to_analyze.append((row, col))
+				print("\n", (row, col), "\n")
+				print(data)
+	
+	for row, col in flashed:
+		data[row, col] = 0
 
-	return data
+	return len(flashed)
 
 data = data_load()
 flash_count = 0	
-# print(f'Grid Start:\n{data}')
+print(f'Grid Start:\n{data}')
 for i in range(10):
-	data += 1
-	# print(f'Current data\n{data} for step {i}')
-	data = flash_check(data)
-	# print(f'Current data\n{data} for step {i}')
-	flash_count += len(np.where(data == 0)[0])
-
+	print(f'BeforeCheck for step {i} \n{data}')
+	flash_count += flash_check(data)
+	print(f'Current data for step {i} \n{data}')
+	
 print(flash_count)
 
