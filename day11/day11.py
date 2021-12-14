@@ -35,8 +35,9 @@ def raise_outer_octopi(data:np.array, row:int, col:int)->np.array:
 				
 	return data
 
-def flash_check(data:np.array, flashed_ocotpi:set)->np.array:
+def flash_check(data:np.array)->np.array:
 	id_nine = list(zip(np.where(data > 9)[0], np.where(data > 9)[1]))
+	flashed_ocotpi = set()
 	if id_nine != []:
 		while id_nine:
 			row, col = id_nine.pop(0)
@@ -44,24 +45,23 @@ def flash_check(data:np.array, flashed_ocotpi:set)->np.array:
 				flashed_ocotpi.add((row, col))
 				raise_outer_octopi(data, row, col)
 				data[row, col] = 0
-				print("\n", (row, col), "\n")
-				print(data)
-				
-		flash_check(data,flashed_ocotpi)
+				# print("\n", (row, col), "\n")
+				# print(data)
+		for row, col in flashed_ocotpi:
+			data[row, col] = 0
+		data = np.where(data > 9, 0, data)
 
-		return data, flashed_ocotpi
-
-	else:
-		return data, flashed_ocotpi
+	return data
 
 data = data_load()
 flash_count = 0	
-for i in range(100):
-		data += 1
-		print(f'Current data\n{data}')
-		flashed_ocotpi = set()
-		data, flashed_ocotpi = flash_check(data, flashed_ocotpi)
-		flash_count += len(flashed_ocotpi)
+# print(f'Grid Start:\n{data}')
+for i in range(10):
+	data += 1
+	# print(f'Current data\n{data} for step {i}')
+	data = flash_check(data)
+	# print(f'Current data\n{data} for step {i}')
+	flash_count += len(np.where(data == 0)[0])
 
 print(flash_count)
-		
+
