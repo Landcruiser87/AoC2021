@@ -4,10 +4,10 @@
 #Assumptions 
 # 1. Octopus have an energy level associated with them
 # 2. When the energy level gets greater than 9, the that octopus will flash
-# 3. This will cause all the other octopuses in every direction to flash (including itself)
-# 4. This resets the energy level to 0
+# 3. If an octopus flashes, it raises every ocotpus energy level around it (including diags) by 1
+# 4. When an octopus flashes, it will return its energy level to zero
 # 5. With each step, octopuses energy level will increase by 1
-# If an octopus flashes, it raises every ocotpus energy level around it (including diags) by 1
+
 
 
 import numpy as np
