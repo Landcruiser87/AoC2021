@@ -53,13 +53,28 @@ def flash_check(data:np.array)->np.array:
 
 	return len(flashed)
 
-data = data_load()
-flash_count = 0	
-# print(f'Grid Start:\n{data}')
-for i in range(100):
-	# print(f'BeforeCheck for step {i} \n{data}')
-	flash_count += flash_check(data)
-	# print(f'Current data for step {i} \n{data}')
-	
-print(flash_count)
+def run_part_A()->int:
+	data = data_load()
+	flash_count = 0	
+	# print(f'Grid Start:\n{data}')
+	for i in range(100):
+		# print(f'BeforeCheck for step {i} \n{data}')
+		flash_count += flash_check(data)
+		# print(f'Current data for step {i} \n{data}')
+	return flash_count	
 
+# print(f"Solution for Part A: {run_part_A()}")
+
+# part B
+
+
+def run_part_B()->int:
+	data = data_load()
+	i=1
+	while i < 10000:
+		sync_test = flash_check(data)
+		if sync_test == data.size:
+			return i 
+		i += 1
+
+print(f"Solution for Part B: {run_part_B()}")
