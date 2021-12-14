@@ -15,7 +15,7 @@ import numpy as np
 
 #Stop at decoding at each incorrect closing character for each corrupted line.
 def load_data():
-	with open('./day10/data.txt', 'r') as f:
+	with open('./day_10/data.txt', 'r') as f:
 		data = f.read().splitlines()
 	return data
 

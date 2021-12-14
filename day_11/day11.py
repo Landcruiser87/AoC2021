@@ -12,8 +12,8 @@
 
 import numpy as np
 # ./day11/
-def data_load()->list:
-	with open('./day11/data.txt', 'r') as f:
+def data_load()->np.array:
+	with open('./day_11/data.txt', 'r') as f:
 		data = f.read().splitlines()
 		arr = np.array([[int(x) for x in list(line)] for line in data])
 	return arr
@@ -35,7 +35,7 @@ def raise_outer_octopi(data:np.array, row:int, col:int)->np.array:
 				
 	return data
 
-def flash_check(data:np.array)->np.array:
+def flash_check(data:np.array)->int:
 	data += 1
 	to_analyze = list(zip(np.where(data > 9)[0], np.where(data > 9)[1]))
 	flashed = set()
