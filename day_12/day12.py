@@ -23,32 +23,95 @@ def data_load()->list:
 data = data_load()
 
 def make_graph(data:list)->dict:
-	graph = {data[start][0]: [] for start in range(len(data))}
+	#Make a dictionary of all nodes and possible edges
+	#dict[leftsplit] : [list of rightsplit]]
+	lefts = {data[start][0]: [] for start in range(len(data))}
+	rights = {data[end][1]: [] for end in range(len(data))}
+	graph = {**lefts, **rights}
+
 	for start, end in data:
 		graph[start].append(end)
+		graph[end].append(start)
 	return graph
 
 def is_smallcave(node:str)->bool:
+	#Checks if lowercase
 	return node.islower()
 
-def count_paths_dfs(node:str='start')->int:
-	#Recursive solution to finding all paths through a graph.
-	graph = make_graph(data)
+def count_paths(node:str='start')->int:
+	#Recursive solution to finding all paths through a graph. 
 	count = 0
+	graph = make_graph(data)
 	visited = set()
-	
+
 	def dfs(node):
-		if node not in visited:
-			visited.add(node)
-			for child in graph[node]:
-				dfs(child)
+		nonlocal count	
+		if node == 'end':
 			count += 1
+			return
+
+		if is_smallcave(node) and node in visited:
+			return
+
+		if is_smallcave(node):
+			visited.add(node)
+
+		for edge in graph[node]:
+			if edge == 'start':
+				continue
+			dfs(edge)
+
+		if is_smallcave(node):
+			visited.remove(node)
+
+	dfs(node)
 
 	return count
 
 def run_part_A()->int:
-	return count_paths_dfs()
+	return count_paths()
 print(f"Solution for Part A: {run_part_A()}")
+
+
+#New parameters:
+
+#1. Small caves can be visited at most twice. 
+#2.   
+
+def count_paths_again(node:str='start')->int:
+	#Recursive solution to finding all paths through a graph. 
+	count = 0
+	graph = make_graph(data)
+	visited = set()
+
+	def dfs_dos(node):
+		nonlocal count	
+		if node == 'end':
+			count += 1
+			return
+
+		if is_smallcave(node) and node in visited:
+			return
+
+		if is_smallcave(node):
+			visited.add(node)
+
+		for edge in graph[node]:
+			if edge == 'start':
+				continue
+			dfs_dos(edge)
+
+		if is_smallcave(node):
+			visited.remove(node)
+
+	dfs_dos(node)
+
+	return count
+
+
+def run_part_B()->int:
+	return count_paths_again()
+print(f"Solution for Part B: {run_part_B()}")
 
 
 
@@ -91,3 +154,38 @@ print(f"Solution for Part A: {run_part_A()}")
 # def run_part_A()->int:
 # 	return count_paths_dfs(data)
 # print(f"Solution for Part A: {run_part_A()}")
+
+
+
+# def count_paths_dfs(start_node:str='start')->int:
+# 	#Recursive solution to finding all paths through a graph.
+# 	graph = make_graph(data)
+# 	count = 0
+# 	visited = set()
+	
+# 	def dfs(node):
+# 		if node == 'end':
+# 			count += 1
+# 			return
+
+# 		if is_smallcave(node) and node in visited:
+# 			return	
+		
+# 		if node not in visited:
+# 			for edge in graph[node]:
+# 				dfs(edge)
+# 		else:
+# 			if is_smallcave(node):
+# 				visited.add(node)
+# 				count += dfs(node)
+# 				visited.remove(node)
+# 			else:
+# 				if is_smallcave(node):
+# 					visted.remove(node)
+
+# 	if start_node not in visited:
+# 		print(f'{node} not in visited')
+# 		for edge in graph[node]:
+# 			dfs(edge)
+
+# 	return count
