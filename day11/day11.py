@@ -63,10 +63,9 @@ def run_part_A()->int:
 		# print(f'Current data for step {i} \n{data}')
 	return flash_count	
 
-# print(f"Solution for Part A: {run_part_A()}")
+print(f"Solution for Part A: {run_part_A()}")
 
 # part B
-
 
 def run_part_B()->int:
 	data = data_load()
