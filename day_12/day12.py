@@ -76,7 +76,11 @@ print(f"Solution for Part A: {run_part_A()}")
 #New parameters:
 
 #1. Small caves can be visited at most twice. 
-#2.   
+#	1b. If one cave is visited twice, we can only visit the rest of the small caves
+#		once.
+
+#2. Large caves can be visited at most once.
+#3. Start and end caves, can only be visited once each.
 
 def count_paths_again(node:str='start')->int:
 	#Recursive solution to finding all paths through a graph. 
