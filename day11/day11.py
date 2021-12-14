@@ -71,8 +71,7 @@ def run_part_B()->int:
 	data = data_load()
 	i=1
 	while i < 10000:
-		sync_test = flash_check(data)
-		if sync_test == data.size:
+		if flash_check(data) == data.size:
 			return i 
 		i += 1
 
