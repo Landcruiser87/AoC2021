@@ -15,7 +15,7 @@
 import numpy as np
 # ./day_12/
 def data_load()->list:
-	with open('./day_12/test_data.txt', 'r') as f:
+	with open('test_data.txt', 'r') as f:
 		data = f.read().splitlines()
 		arr = [line.split("-") for line in data]
 	return arr
@@ -82,11 +82,30 @@ print(f"Solution for Part A: {run_part_A()}")
 #2. Large caves can be visited at most once.
 #3. Start and end caves, can only be visited once each.
 
+#Thinking i might just use a dict of sets?
+#Or a dict of counts of each path node.  
+#Such that once a small cave is visited twice, 
+#then i can only add one cave for the following small caves.  
+
+def make_graph_dos(data:list)->dict:
+	#Make a dictionary of all nodes and possible edges
+	#dict[leftsplit] : [list of rightsplit]]
+	lefts = {data[start][0]: int for start in range(len(data))}
+	rights = {data[end][1]: int for end in range(len(data))}
+	graph = {**lefts, **rights}
+
+	for start, end in data:
+		graph[start] = end
+
+		graph[end].append(start)
+	return graph
+
+
 def count_paths_again(node:str='start')->int:
 	#Recursive solution to finding all paths through a graph. 
 	count = 0
-	graph = make_graph(data)
-	visited = set()
+	graph = make_graph_dos(data)
+	visited = dict()
 
 	def dfs_dos(node):
 		nonlocal count	
@@ -98,6 +117,7 @@ def count_paths_again(node:str='start')->int:
 			return
 
 		if is_smallcave(node):
+			
 			visited.add(node)
 
 		for edge in graph[node]:
