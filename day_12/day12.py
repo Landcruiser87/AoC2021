@@ -15,12 +15,10 @@
 import numpy as np
 # ./day_12/
 def data_load()->list:
-	with open('test_data.txt', 'r') as f:
+	with open('./day_12/data.txt', 'r') as f:
 		data = f.read().splitlines()
 		arr = [line.split("-") for line in data]
 	return arr
-
-data = data_load()
 
 def make_graph(data:list)->dict:
 	#Make a dictionary of all nodes and possible edges
@@ -29,6 +27,7 @@ def make_graph(data:list)->dict:
 	rights = {data[end][1]: [] for end in range(len(data))}
 	graph = {**lefts, **rights}
 
+	#Add all edges to graph
 	for start, end in data:
 		graph[start].append(end)
 		graph[end].append(start)
@@ -40,30 +39,34 @@ def is_smallcave(node:str)->bool:
 
 def count_paths(node:str='start')->int:
 	#Recursive solution to finding all paths through a graph. 
+	data = data_load()
 	count = 0
 	graph = make_graph(data)
 	visited = set()
 
 	def dfs(node):
+		#If its the end node, thats a path! Increase count and return
 		nonlocal count	
 		if node == 'end':
 			count += 1
 			return
-
+		#Make sure we haven't visited and its a small cave
 		if is_smallcave(node) and node in visited:
 			return
 
+		#Add node to visited
 		if is_smallcave(node):
 			visited.add(node)
 
+		#Add all neighbors to queue
 		for edge in graph[node]:
 			if edge == 'start':
 				continue
 			dfs(edge)
-
+		#Deque node from visited
 		if is_smallcave(node):
 			visited.remove(node)
-
+	#Recurse
 	dfs(node)
 
 	return count
@@ -87,47 +90,48 @@ print(f"Solution for Part A: {run_part_A()}")
 #Such that once a small cave is visited twice, 
 #then i can only add one cave for the following small caves.  
 
-def make_graph_dos(data:list)->dict:
-	#Make a dictionary of all nodes and possible edges
-	#dict[leftsplit] : [list of rightsplit]]
-	lefts = {data[start][0]: int for start in range(len(data))}
-	rights = {data[end][1]: int for end in range(len(data))}
-	graph = {**lefts, **rights}
-
-	for start, end in data:
-		graph[start] = end
-
-		graph[end].append(start)
-	return graph
-
 
 def count_paths_again(node:str='start')->int:
 	#Recursive solution to finding all paths through a graph. 
+	data = data_load()
 	count = 0
-	graph = make_graph_dos(data)
-	visited = dict()
-
+	graph = make_graph(data)
+	visited = {node:0 for node in graph.keys()}
+	
 	def dfs_dos(node):
+
 		nonlocal count	
+		#If its the end node, thats a path! Increase count and return
 		if node == 'end':
 			count += 1
 			return
-
-		if is_smallcave(node) and node in visited:
-			return
-
+		# If small cave, and visited twice, return
+		#Uses integer counter to make sure only one cave is above 2
 		if is_smallcave(node):
-			
-			visited.add(node)
+			visited[node] += 1
+			visit_limit = 0
+			for key in visited.keys():
+				if visited[key] > 1:
+					visit_limit += 1
 
+					if visited[key] > 2:
+						visited[node] -= 1
+						return
+
+			if visit_limit > 1:
+				visited[node] -= 1
+				return
+		# Add all neighbors to queue
 		for edge in graph[node]:
 			if edge == 'start':
 				continue
+			#Unless its a start cave, recurse
 			dfs_dos(edge)
 
+		#Deque node from visited
 		if is_smallcave(node):
-			visited.remove(node)
-
+			visited[node] -= 1
+	#Recurse
 	dfs_dos(node)
 
 	return count
