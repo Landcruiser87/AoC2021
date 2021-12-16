@@ -80,7 +80,6 @@ def fold_it_up(grid:np.array, folds:list)->(int, np.array):
 	return len(np.where(grid == 1)[0]), grid
 
 def print_grid(grid:np.array):
-
 	print_g = np.zeros((grid.shape[0], grid.shape[1]), dtype=str)
 	#replace the zeros with a period
 	print_g[grid == 0] = "."
