@@ -106,5 +106,5 @@ def run_part_B()->str:
 	print_grid(grid)
 	return "Above grid"
 
-print(f'{run_part_B()}: Solution to Part B')
+print(f'{run_part_B()} Code for thermal Camera: Part B')
 
