@@ -21,7 +21,7 @@ import numpy as np
 from inspect import stack
 
 # ./day_13/
-def data_load()->list:
+def data_load()->(list, list):
 	caller = stack()[1].function
 	with open('./day_13/data.txt', 'r') as f:
 		data = f.read().splitlines()
