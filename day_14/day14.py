@@ -25,14 +25,14 @@ def data_load()-> (dict, str):
 	return polymer, rules
 
 def pair_insert(polymer:str, rules:dict)-> str:
-	"""[Insert rules into polymer.  Returns updated polymer]
+	"""[Insert rules into polymer]
 
 	Args:
 		polymer (str): [Input polymer string]
 		rules (dict): [rules for chain insertion]
 
 	Returns:
-		dict: [Updated dict_counter]
+		str: [Updated polymer string]
 	"""	
 	res = ""
 	for x in range(len(polymer)):
