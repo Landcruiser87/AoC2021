@@ -62,8 +62,9 @@ def run_part_A()-> int:
 
 print(f"Solution for Part A: {run_part_A()}")
 
-#Turns out you can't just increase the range and compute the same.  List values get way too big. 
+#Turns out you can't just increase the range and compute the same.  str values get way too big. 
 # Soooooooo.  time for a bunch of Counters or dictionaries
+
 
 def pair_insert_dos(dict_counts:dict, rules:dict)-> dict:
 	#Only want to pass counters back and forth.  Can't compute string as it gets ginormous
