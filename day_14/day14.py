@@ -25,7 +25,7 @@ def data_load()-> (dict, str):
 def pair_insert(polymer:str, rules:dict)-> str:
 	"""[Insert rules into polymer.
 	1.  Finds the pairs in string.
-	2.  If the pair is in the rules, replace the pair with the rule.
+	2.  If the pair is in the rules, add the pair with the rule to res.
 	3.  combine first char of pair and rules[pair]
 	4.  Add the last char back to string to complete pairs]
 
