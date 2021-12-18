@@ -86,7 +86,7 @@ def run_part_B()-> int:
 		freq_dict[polymer[x:x+2]] += 1
 	
 
-	for i in range(40):
+	for i in range(10):
 		#update the freq_dict for every step
 		freq_dict = pair_insert_dos(freq_dict, rules)
 
@@ -97,10 +97,10 @@ def run_part_B()-> int:
 
 	# counts = {k: (v + 1) // 2 for k, v in final_counts.items()}
 
-	for key, val in my_dict.items():
+	for key, val in final_counts.items():
 		final_counts[key] = (val + 1) // 2
 
-	ans = max(counts.values()) - min(counts.values())
+	ans = max(final_counts.values()) - min(final_counts.values())
 	return ans
 
 print(f"Solution for Part B: {run_part_B()}")
