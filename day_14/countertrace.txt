@@ -1,0 +1,44 @@
+Template:     NNCB
+After step 1: NCNBCHB
+	{'NC': 1, 
+	'CN': 1, 
+	'NB': 1,
+	'BC': 1,
+	'CH': 1, 
+	'HB': 1
+	}
+After step 2: NBCCNBBBCBHCB
+	{'NB':2,
+	 'BC':2, 
+	 'CC':1,
+	 'BB':2,
+	 'CB':2,
+	 'BH':1,
+	 'HC':1
+	 }
+After step 3: NBBBCNCCNBBNBNBBCHBHHBCHB
+		{'NB': 4,
+         'BB': 4,
+         'BC': 3,
+         'CN': 2,
+         'NC': 1,
+         'CC': 1,
+         'BN': 2,
+         'CH': 2,
+         'HB': 3,
+         'BH': 1,
+         'HH': 1}
+After step 4: NBBNBNBBCCNBCNCCNBBNBBNBBBNBBNBBCBHCBHHNHCBBCBHCB
+		{'NB': 9,
+         'BB': 9,
+         'BN': 6,
+         'BC': 4,
+         'CC': 2,
+         'CN': 3,
+         'NC': 1,
+         'CB': 5,
+         'BH': 3,
+         'HC': 3,
+         'HH': 1,
+         'HN': 1,
+         'NH': 1}

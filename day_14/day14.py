@@ -13,7 +13,7 @@
 from collections import Counter, defaultdict
 # ./day_14/
 def data_load()-> (dict, str):
-	with open('test_data.txt') as f:
+	with open('./day_14/test_data.txt') as f:
 		data = f.read().splitlines()
 		data = [line.split(" -> ") for line in data]
 		polymer = data.pop(0)[0]
@@ -42,6 +42,8 @@ def pair_insert(polymer:str, rules:dict)-> str:
 	res += polymer[-1]
 	
 	return res
+
+
 def run_part_A()-> int:
 	polymer, rules = data_load()
 	poly_update = pair_insert(polymer, rules)
@@ -57,34 +59,37 @@ def run_part_A()-> int:
 # print(f"Solution for Part A: {run_part_A()}")
 
 #Turns out you can't just increase the range and compute the same.  List values get way too big. 
-# Soooooooo.  time for a bunch of Counters / dictionaries
+# Soooooooo.  time for a bunch of Counters or dictionaries
 
 def pair_insert_dos(dict_counter:dict, rules:dict)-> dict:
 	#Only want to pass counters back and forth.  Can't compute string as it gets ginormous
 
-	freq_dict = dict_counter.copy()
-	for pair in freq_dict.keys():
-		if pair in rules:
-			#Insert the rule, but update the dict_counter.
-			dict_counter[pair[0] + rules[pair]] += 1
-			dict_counter[rules[pair] + pair[1]] += 1
+	static_dict = dict_counter.copy()
+	for pair, val in static_dict.items():
+		if val > 0:
+			if pair in rules:
+				print(f"{pair} -> {rules[pair]}")
+				#Insert the rule, but update the dict_counter.
+				dict_counter[pair[0] + rules[pair]] += val
+				dict_counter[rules[pair] + pair[1]] += val
+				dict_counter[pair] -= val
 
 	return dict_counter
 
 def run_part_B()-> int:
 	polymer, rules = data_load()
 
-	#Initialize two counter dicts
-	pair_counts, freq_dict = defaultdict(int), defaultdict(int)
+	#Initialize counter dict
+	freq_dict = defaultdict(int)
 
 	#start the madness with the initial pairs.  Add them to the defaultdict. 
 	for x in range(len(polymer)-1):
-		pair_counts[polymer[x:x+2]] += 1
+		freq_dict[polymer[x:x+2]] += 1
 	
 
 	for i in range(40):
 		#update the freq_dict for every step
-		freq_dict = pair_insert_dos(pair_counts, rules)
+		freq_dict = pair_insert_dos(freq_dict, rules)
 
 
 	final_counts = defaultdict(int)
@@ -92,7 +97,7 @@ def run_part_B()-> int:
 		for ch in pairs:
 			final_counts[ch] += freq_dict[pairs]
 
-
+	counts = {k: (v + 1) // 2 for k, v in final_counts.items()}
 	ans = max(counts.values()) - min(counts.values())
 	return ans
 
