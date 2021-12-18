@@ -55,9 +55,9 @@ def run_part_A()-> int:
 	for i in range(1, 10):
 		poly_update = pair_insert(poly_update, rules)
 
-	dict_counter = Counter(poly_update)
+	dict_counts = Counter(poly_update)
 
-	ans = max(dict_counter.values()) - min(dict_counter.values())
+	ans = max(dict_counts.values()) - min(dict_counts.values())
 	return ans
 
 print(f"Solution for Part A: {run_part_A()}")
@@ -65,29 +65,29 @@ print(f"Solution for Part A: {run_part_A()}")
 #Turns out you can't just increase the range and compute the same.  List values get way too big. 
 # Soooooooo.  time for a bunch of Counters or dictionaries
 
-def pair_insert_dos(dict_counter:dict, rules:dict)-> dict:
+def pair_insert_dos(dict_counts:dict, rules:dict)-> dict:
 	#Only want to pass counters back and forth.  Can't compute string as it gets ginormous
 	"""[This time around we'll only track the pairs of characters in the strings. 
 	Just like the lanternfish (day4), this will help solve our memory problems when the
 	polymer string gets too big]
 
 	Args:
-		dict_counter (dict): [input dictionary of pairs]
+		dict_counts (dict): [input dictionary of pairs]
 		rules (dict): [Rules to abide by insertion]
 
 	Returns:
-		dict_counter (dict): [Counter updated with rule insertions]
+		dict_counts (dict): [dict updated with rule insertions]
 	"""
-	static_dict = dict_counter.copy()
+	static_dict = dict_counts.copy()
 	for pair, val in static_dict.items():
 		if val > 0:
 			if pair in rules:
-				#Insert the rule, but update the dict_counter.
-				dict_counter[pair[0] + rules[pair]] += val
-				dict_counter[rules[pair] + pair[1]] += val
-				dict_counter[pair] -= val
+				#Insert the rule, but update the dict_counts.
+				dict_counts[pair[0] + rules[pair]] += val
+				dict_counts[rules[pair] + pair[1]] += val
+				dict_counts[pair] -= val
 
-	return dict_counter
+	return dict_counts
 
 def run_part_B()-> int:
 	polymer, rules = data_load()
