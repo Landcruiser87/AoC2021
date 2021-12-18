@@ -67,7 +67,6 @@ print(f"Solution for Part A: {run_part_A()}")
 
 
 def pair_insert_dos(dict_counts:dict, rules:dict)-> dict:
-	#Only want to pass counters back and forth.  Can't compute string as it gets ginormous
 	"""[This time around we'll only track the pairs of characters in the strings. 
 	Just like the lanternfish (day4), this will help solve our memory problems when the
 	polymer string gets too big]
