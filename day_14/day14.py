@@ -13,7 +13,7 @@
 from collections import Counter, defaultdict
 # ./day_14/
 def data_load()-> (dict, str):
-	with open('./day_14/test_data.txt') as f:
+	with open('./day_14/data.txt') as f:
 		data = f.read().splitlines()
 		data = [line.split(" -> ") for line in data]
 		polymer = data.pop(0)[0]
@@ -68,7 +68,6 @@ def pair_insert_dos(dict_counter:dict, rules:dict)-> dict:
 	for pair, val in static_dict.items():
 		if val > 0:
 			if pair in rules:
-				print(f"{pair} -> {rules[pair]}")
 				#Insert the rule, but update the dict_counter.
 				dict_counter[pair[0] + rules[pair]] += val
 				dict_counter[rules[pair] + pair[1]] += val
@@ -91,13 +90,16 @@ def run_part_B()-> int:
 		#update the freq_dict for every step
 		freq_dict = pair_insert_dos(freq_dict, rules)
 
-
 	final_counts = defaultdict(int)
 	for pairs in freq_dict.keys():
 		for ch in pairs:
 			final_counts[ch] += freq_dict[pairs]
 
-	counts = {k: (v + 1) // 2 for k, v in final_counts.items()}
+	# counts = {k: (v + 1) // 2 for k, v in final_counts.items()}
+
+	for key, val in my_dict.items():
+		final_counts[key] = (val + 1) // 2
+
 	ans = max(counts.values()) - min(counts.values())
 	return ans
 
