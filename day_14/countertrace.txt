@@ -17,7 +17,7 @@ After step 2: NBCCNBBBCBHCB
 	 'HC':1
 	 }
 After step 3: NBBBCNCCNBBNBNBBCHBHHBCHB
-		{'NB': 4,
+	{'NB': 4,
          'BB': 4,
          'BC': 3,
          'CN': 2,
@@ -29,7 +29,7 @@ After step 3: NBBBCNCCNBBNBNBBCHBHHBCHB
          'BH': 1,
          'HH': 1}
 After step 4: NBBNBNBBCCNBCNCCNBBNBBNBBBNBBNBBCBHCBHHNHCBBCBHCB
-		{'NB': 9,
+	{'NB': 9,
          'BB': 9,
          'BN': 6,
          'BC': 4,
