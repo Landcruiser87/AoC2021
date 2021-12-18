@@ -23,14 +23,18 @@ def data_load()-> (dict, str):
 	return polymer, rules
 
 def pair_insert(polymer:str, rules:dict)-> str:
-	"""[Insert rules into polymer]
+	"""[Insert rules into polymer.
+	1.  Finds the pairs in string.
+	2.  If the pair is in the rules, replace the pair with the rule.
+	3.  combine first char of pair and rules[pair]
+	4.  Add the last char back to string to complete pairs]
 
 	Args:
 		polymer (str): [Input polymer string]
 		rules (dict): [rules for chain insertion]
 
 	Returns:
-		str: [Updated polymer string]
+		res (str): [Updated polymer string]
 	"""	
 	res = ""
 	for x in range(len(polymer)):
@@ -56,14 +60,24 @@ def run_part_A()-> int:
 	ans = max(dict_counter.values()) - min(dict_counter.values())
 	return ans
 
-# print(f"Solution for Part A: {run_part_A()}")
+print(f"Solution for Part A: {run_part_A()}")
 
 #Turns out you can't just increase the range and compute the same.  List values get way too big. 
 # Soooooooo.  time for a bunch of Counters or dictionaries
 
 def pair_insert_dos(dict_counter:dict, rules:dict)-> dict:
 	#Only want to pass counters back and forth.  Can't compute string as it gets ginormous
+	"""[This time around we'll only track the pairs of characters in the strings. 
+	Just like the lanternfish (day4), this will help solve our memory problems when the
+	polymer string gets too big]
 
+	Args:
+		dict_counter (dict): [input dictionary of pairs]
+		rules (dict): [Rules to abide by insertion]
+
+	Returns:
+		dict_counter (dict): [Counter updated with rule insertions]
+	"""
 	static_dict = dict_counter.copy()
 	for pair, val in static_dict.items():
 		if val > 0:
@@ -82,11 +96,10 @@ def run_part_B()-> int:
 	freq_dict = defaultdict(int)
 
 	#start the madness with the initial pairs.  Add them to the defaultdict. 
-	for x in range(len(polymer)-1):
+	for x in range(len(polymer)):
 		freq_dict[polymer[x:x+2]] += 1
 	
-
-	for i in range(10):
+	for i in range(40):
 		#update the freq_dict for every step
 		freq_dict = pair_insert_dos(freq_dict, rules)
 
@@ -94,8 +107,6 @@ def run_part_B()-> int:
 	for pairs in freq_dict.keys():
 		for ch in pairs:
 			final_counts[ch] += freq_dict[pairs]
-
-	# counts = {k: (v + 1) // 2 for k, v in final_counts.items()}
 
 	for key, val in final_counts.items():
 		final_counts[key] = (val + 1) // 2
