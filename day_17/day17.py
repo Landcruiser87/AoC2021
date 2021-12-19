@@ -25,7 +25,7 @@ import itertools
 
 # ./day_17/
 def target_load()-> int:
-	with open('./day_17/test_data.txt', 'r') as f:
+	with open('./day_17/data.txt', 'r') as f:
 		data = f.read().split(":")[1].strip()
 		x, y = data.split(", ")
 		xmin, xmax = x[2:].split("..")
@@ -55,8 +55,8 @@ def fire_the_cannons(xx:int, yy:int)->int:
 			traj_max = y
 		
 		if target_hit(x, y):
-			hit_list.append(tuple(xx, yy), traj_max)
-			print(f"Hit at {xx}, {yy}")
+			hit_list.append(traj_max)
+			# print(f"Hit at {xx}, {yy}")
 			break
 		
 		if xx > 0:
@@ -67,31 +67,33 @@ def fire_the_cannons(xx:int, yy:int)->int:
 		yy -= 1
 
 	if not hit_list:
-		return None, None
+		return None, False
 
-	return traj_max, hit_list
+	return traj_max, True
 
 def run_part_A():
 	global xmin, xmax, ymin, ymax
 	(xmin, xmax, ymin, ymax) = target_load()
 	
+	heights = []
 	#Only looking in positive firing ranges as this is a height contest,
-	x_rng, y_rng = range(6, 100), range(3,100)
+	x_rng, y_rng = range(-100, 100), range(-100,100)
 	firing_grid = np.array(list(itertools.product(x_rng, y_rng)))
 
 	for x, y in firing_grid:
-		print(f'firing vectors at x:{x}, y:{y}')
+		# print(f'firing vectors at x:{x}, y:{y}')
 
-		height, hit_list = fire_the_cannons(x, y)
+		height, hit_bool = fire_the_cannons(x, y)
 
-		# #!todo, need to fix this, for now just a continue
-		# if height > max_height:
-		# 	max_height = height
-		# 	hit_list_win = hit_list
-		# else:
+		if hit_bool:
+			print(f"Hit with {x}, {y}")
+			print(f"Max height: {height}")
+			heights.append(height)
+
 		continue
 
-	return max_height, hit_list_win
+	if len(heights) > 0:
+		return max(heights)
 
 print(f"Solution for Part A: {run_part_A()}")
 
