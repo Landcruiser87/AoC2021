@@ -54,8 +54,8 @@ def fire_the_cannons(xx:int, yy:int)->int:
 		if y > traj_max:
 			traj_max = y
 		
-		if target_hit(xx, yy):
-			hit_list.append((xx, yy), traj_max)
+		if target_hit(x, y):
+			hit_list.append(tuple(xx, yy), traj_max)
 			print(f"Hit at {xx}, {yy}")
 			break
 		
@@ -76,7 +76,7 @@ def run_part_A():
 	(xmin, xmax, ymin, ymax) = target_load()
 	
 	#Only looking in positive firing ranges as this is a height contest,
-	x_rng, y_rng = range(100), range(100)
+	x_rng, y_rng = range(6, 100), range(3,100)
 	firing_grid = np.array(list(itertools.product(x_rng, y_rng)))
 
 	for x, y in firing_grid:
@@ -84,12 +84,12 @@ def run_part_A():
 
 		height, hit_list = fire_the_cannons(x, y)
 
-		#!todo, need to fix this
-		if height > max_height:
-			max_height = height
-			hit_list_win = hit_list
-		else:
-			continue
+		# #!todo, need to fix this, for now just a continue
+		# if height > max_height:
+		# 	max_height = height
+		# 	hit_list_win = hit_list
+		# else:
+		continue
 
 	return max_height, hit_list_win
 
