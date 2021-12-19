@@ -21,65 +21,23 @@
 
 
 import numpy as np
+from scipy.sparse.csgraph import dijkstra
+from scipy.sparse import csr_matrix
 
 # ./day_15/
 def data_load()->np.array:
-	with open('./day_15/test_data.txt', 'r') as f:
+	with open('test_data.txt', 'r') as f:
 		data = f.read().splitlines()
 		arr = np.array([[int(x) for x in list(line)] for line in data])
 	return arr
 
-def on_board(data:np.array, x1:int, y1:int)->bool:
-	ht = data.shape[0]
-	wd = data.shape[1]
-	if x1 < 0 or y1 < 0 or x1 >= ht or y1 >= wd:
-		return False
-	else:
-		return True
-
-
-def scan_for_min(data:np.array, row:int, col:int)->tuple:
-	#Loop through outer perimeter. 
-	perims = []
-	for i in range(row-1, row+2):
-		for j in range(col-1, col+2):
-			if on_board(data, i, j):
-				# Will need logic here to find the minium of the square perimeter.  
-				# Probably just flatten it out and find the min, then index it. 
-				# 	Also need logic to handle edge cases in case of tie. 
-				# 	Which will require a 1 cell increase in the perimeter, 
-				# 	and check those values. 
-				
-				#current value point doesn't matter.  Only the perimeter. 
-				perims.append(((i, j), data[i, j]))
-
-	#Pop off the center point
-	perims.pop(perims.index(((row, col), data[row, col])))
-	#Find the min of the perimeter.
-	min_perim = min(perims, key=lambda x: x[1])
-	#print(min_perim)
-	
-	if min_perim > 2:
-		scan_for_min(data, row, col)
-	else:
-		return min_perim[0]
-
 def run_part_A():
+
 	data = data_load()
+	start_pos = (0, 0)
 	final_pos = (data.shape[0]-1, data.shape[1]-1)
-	path = []
-	# Start at top left.
-	for x in range(data.shape[0]):
-		for y in range(data.shape[1]):
-			next_point = scan_for_min(data, x, y)
-			path.append(next_point)
-			temp = data.copy()
-			temp[next_point] = 100
-			print(temp)
-			del temp
+	d_sparse = csr_matrix(data)
+	paths = dijkstra(d_sparse, directed=True, indices=start_pos, unweighted=False)
+	return sum([sum(path) for path in paths])
 
-			if next_point == final_pos:
-				return sum(data[path] for path in paths)
-			
 print(f"Solution for Part A: {run_part_A()}")
-
