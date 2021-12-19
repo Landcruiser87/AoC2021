@@ -86,8 +86,8 @@ def run_part_A():
 		height, hit_bool = fire_the_cannons(x, y)
 
 		if hit_bool:
-			print(f"Hit with {x}, {y}")
-			print(f"Max height: {height}")
+			# print(f"Hit with {x}, {y}")
+			# print(f"Max height: {height}")
 			heights.append(height)
 
 		continue
