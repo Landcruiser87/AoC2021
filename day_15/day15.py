@@ -21,23 +21,59 @@
 
 
 import numpy as np
-from scipy.sparse.csgraph import dijkstra
+# from scipy.sparse.csgraph import shortest_path
 from scipy.sparse import csr_matrix
+import heapq
+from math import inf
 
 # ./day_15/
 def data_load()->np.array:
-	with open('test_data.txt', 'r') as f:
+	with open('./day_15/test_data.txt', 'r') as f:
 		data = f.read().splitlines()
 		arr = np.array([[int(x) for x in list(line)] for line in data])
 	return arr
 
+
+def dijkstra(adj, start, target):
+    d = {start: 0}
+    parent = {start: None}
+    pq = [(0, start)]
+    visited = set()
+    while pq:
+        du, u = heapq.heappop(pq)
+        if u in visited: continue
+        if u == target:
+            break
+        visited.add(u)
+        for v, weight in adj[u]:
+            if v not in d or d[v] > du + weight:
+                d[v] = du + weight
+                parent[v] = u
+                heapq.heappush(pq, (d[v], v))
+
+
+    return parent, d
 def run_part_A():
 
 	data = data_load()
 	start_pos = (0, 0)
 	final_pos = (data.shape[0]-1, data.shape[1]-1)
-	d_sparse = csr_matrix(data)
-	paths = dijkstra(d_sparse, directed=True, indices=start_pos, unweighted=False)
+	paths, stuffs = dijkstra(data, start_pos, final_pos)
 	return sum([sum(path) for path in paths])
 
 print(f"Solution for Part A: {run_part_A()}")
+
+
+
+
+
+# def run_part_A():
+
+# 	data = data_load()
+# 	start_pos = (0, 0)
+# 	final_pos = (data.shape[0]-1, data.shape[1]-1)
+# 	d_sparse = csr_matrix(data)
+# 	paths = shortest_path(d_sparse, directed=True, indices=0, unweighted=False)
+# 	return sum([sum(path) for path in paths])
+
+# print(f"Solution for Part A: {run_part_A()}")

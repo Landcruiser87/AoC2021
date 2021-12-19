@@ -21,9 +21,11 @@
 
 
 import numpy as np
+import itertools
+
 # ./day_17/
-def data_load()-> int:
-	with open('test_data.txt', 'r') as f:
+def target_load()-> int:
+	with open('./day_17/test_data.txt', 'r') as f:
 		data = f.read().split(":")[1].strip()
 		x, y = data.split(", ")
 		xmin, xmax = x[2:].split("..")
@@ -34,9 +36,63 @@ def data_load()-> int:
 
 def target_hit(x:int, y:int)->bool:
 	if xmin <= x <= xmax and ymin <= y <= ymax:
-		return "Target hit!"
+		# "Target hit!"
+		return True 
 	else:
-		return "Target missed!"
+		# "Target missed!"
+		return False
 
-(xmin, xmax, ymin, ymax) = data_load()
-target_hit(30, -10)
+def fire_the_cannons(xx:int, yy:int)->int:
+	x, y = 0, 0
+	hit_list = []	
+	traj_max = 0
+
+	while y >= ymin and x <= xmax:
+		x += xx
+		y += yy
+
+		if y > traj_max:
+			traj_max = y
+		
+		if target_hit(xx, yy):
+			hit_list.append((xx, yy), traj_max)
+			print(f"Hit at {xx}, {yy}")
+			break
+		
+		if xx > 0:
+			xx -= 1
+		if xx < 0:
+			xx += 1
+		
+		yy -= 1
+
+	if not hit_list:
+		return None, None
+
+	return traj_max, hit_list
+
+def run_part_A():
+	global xmin, xmax, ymin, ymax
+	(xmin, xmax, ymin, ymax) = target_load()
+	
+	#Only looking in positive firing ranges as this is a height contest,
+	x_rng, y_rng = range(100), range(100)
+	firing_grid = np.array(list(itertools.product(x_rng, y_rng)))
+
+	for x, y in firing_grid:
+		print(f'firing vectors at x:{x}, y:{y}')
+
+		height, hit_list = fire_the_cannons(x, y)
+
+		#!todo, need to fix this
+		if height > max_height:
+			max_height = height
+			hit_list_win = hit_list
+		else:
+			continue
+
+	return max_height, hit_list_win
+
+print(f"Solution for Part A: {run_part_A()}")
+
+
