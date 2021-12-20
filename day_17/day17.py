@@ -76,7 +76,6 @@ def run_part_A():
 	(xmin, xmax, ymin, ymax) = target_load()
 	
 	heights = []
-	#Only looking in positive firing ranges as this is a height contest,
 	x_rng, y_rng = range(200), range(-200,200)
 	firing_grid = np.array(list(itertools.product(x_rng, y_rng)))
 
@@ -86,7 +85,7 @@ def run_part_A():
 		height, hit_bool = fire_the_cannons(x, y)
 
 		if hit_bool:
-			# print(f"Hit with {x}, {y}")
+			# print(f"Hit with {x}, {y}")	
 			# print(f"Max height: {height")
 			heights.append(height)
 		else:
