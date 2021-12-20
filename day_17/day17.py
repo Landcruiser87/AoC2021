@@ -44,7 +44,7 @@ def target_hit(x:int, y:int)->bool:
 
 def fire_the_cannons(xx:int, yy:int)->int:
 	x, y = 0, 0
-	hit_list = []	
+	hit_list = []
 	traj_max = 0
 
 	while y >= ymin and x <= xmax:
@@ -77,20 +77,20 @@ def run_part_A():
 	
 	heights = []
 	#Only looking in positive firing ranges as this is a height contest,
-	x_rng, y_rng = range(-100, 100), range(-100,100)
+	x_rng, y_rng = range(200), range(-200,200)
 	firing_grid = np.array(list(itertools.product(x_rng, y_rng)))
 
 	for x, y in firing_grid:
 		# print(f'firing vectors at x:{x}, y:{y}')
-
+ 
 		height, hit_bool = fire_the_cannons(x, y)
 
 		if hit_bool:
 			# print(f"Hit with {x}, {y}")
-			# print(f"Max height: {height}")
+			# print(f"Max height: {height")
 			heights.append(height)
-
-		continue
+		else:
+			continue
 
 	if len(heights) > 0:
 		return max(heights)
@@ -98,3 +98,27 @@ def run_part_A():
 print(f"Solution for Part A: {run_part_A()}")
 
 
+def run_part_B():
+	global xmin, xmax, ymin, ymax
+	(xmin, xmax, ymin, ymax) = target_load()
+	
+	battleships = []
+	x_rng, y_rng = range(200), range(-200,200)
+	# x_rng, y_rng = range(-40, 40), range(-15,15)
+	firing_grid = np.array(list(itertools.product(x_rng, y_rng)))
+
+	for x, y in firing_grid:
+		height, hit_bool = fire_the_cannons(x , y)
+
+		if hit_bool:
+			# print(f"Hit with {x}, {y}")
+			# print(f"Max height: {height}")
+			battleships.append((x,y))
+
+		continue
+
+	if len(battleships) > 0:
+		battle_sets = set(battleships)
+		return len(battle_sets)
+
+print(f"Solution for Part B: {run_part_B()}")
