@@ -20,11 +20,74 @@ def data_load():
 	return data
 
 def get_depths(lev, depth = 0):
-    if not isinstance(lev, list):
-        yield (lev, depth)
-    else:
-        for sublist in lev:
-            yield from get_depths(sublist, depth + 1)
+	if not isinstance(lev, list):
+		yield (lev, depth)
+	else:
+		for sublist in lev:
+			yield from get_depths(sublist, depth + 1)
+
+ 
+# depth_list = [[0,'Hips'],[1,'Spine'],[2,'Spine1'],[3,'Spine2'],[4,'Neck'],[5,'Head'],[6,'HeadTop_End'],[4,'LeftShoulder']]
+
+def construct(depth_list, current_level=1):
+	output = []
+	pair_count = 0
+	while len(depth_list) > 0:
+		int_add, new_level = depth_list[0]
+		if new_level == current_level:
+			pair_count += 1
+			if pair_count <= 2:	
+				output.extend([int_add])
+				depth_list.pop(0)
+			else:
+				output.append([int_add])
+				depth_list.pop(0)
+				pair_count = 0
+
+		elif new_level > current_level:
+			child = construct(depth_list, new_level)
+			output.append(child)
+
+		else:
+			return output
+
+	return output
+#Loads up to the first 3 lists right, but fails when more lists are on the same level. 
+#fak
+
+
+def run_part_A():
+	data = data_load()
+	for i, line in enumerate(data):
+		#Transforms list into a list of depth tuples
+		depths = list(get_depths(line))
+		print(construct(depths))
+		# if any(pair[1] == 4 for pair in depths):
+			# esploded = explode(test)
+		
+
+
+print(f'Solution for part A: {run_part_A()}')
+
+
+def split():
+	pass
+
+def magnitude():
+	return [3*pair[0], 2*pair[1]]
+
+def explode(counts: list):
+	pass	
+
+
+#Plan of attack. 
+# get the levels of each number.  Then when you need to split/explode. 
+#index the number above or below the pair you're looking at. 
+#will have to do some tricky list removal too.  
+
+				
+
+
 
 # def rebuild_levels(lev, depth=0):
 # 	# Input: list of tuples (number, depth)
@@ -56,7 +119,8 @@ def get_depths(lev, depth = 0):
 # 		elif l_dep > lev[i-1][1]:
 # 			rebuild_str += "["*(l_dep - lev[i-1][1]) + str(num) + ","
 	
-# 	return eval(rebuild_str)				
+# 	return eval(rebuild_str)
+	
 
 
 
@@ -69,41 +133,6 @@ def get_depths(lev, depth = 0):
 
 #     for sub_list in lists:
 #         extract(sub_list, d - 1)
-
-	
-
-def reduce_list():
-	pass
-	# if pair_width == 4:
-	#Explode and split function calls in here. 
-	#Might want to make it recursive to feed into itself. 
-
-
-def explode(counts: list):
-	pass
-
-def split():
-	pass
-
-def magnitude():
-	return [3*pair[0], 2*pair[1]]
-
-
-
-data = data_load()
-for i, line in enumerate(data):
-	test = list(get_depths(line))
-
-	if any(pair[1] == 4 for pair in test):
-		esploded = explode(test)
-
-	
-
-#Plan of attack. 
-# get the levels of each number.  Then when you need to split/explode. 
-#index the number above or below the pair you're looking at. 
-#will have to do some tricky list removal too.  
-
 
 
 
