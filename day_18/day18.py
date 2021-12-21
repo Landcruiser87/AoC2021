@@ -26,38 +26,37 @@ def get_depths(lev, depth = 0):
         for sublist in lev:
             yield from get_depths(sublist, depth + 1)
 
-def rebuild_levels(lev, depth=0):
-	# Input: list of tuples (number, depth)
-	# Output: recreated nested list
+# def rebuild_levels(lev, depth=0):
+# 	# Input: list of tuples (number, depth)
+# 	# Output: recreated nested list
 
-	rebuild_str = ""
-	for i, (num, l_dep) in enumerate(lev):
+# 	rebuild_str = ""
+# 	for i, (num, l_dep) in enumerate(lev):
 		
-		#Start of levels.  Match the depth appropriately
-		if i == 0:
-			rebuild_str += "["*l_dep + str(num) + ","
-			continue		
+# 		#Start of levels.  Match the depth appropriately
+# 		if i == 0:
+# 			rebuild_str += "["*l_dep + str(num) + ","
+# 			continue		
 		
-		#Check end of input text
-		if i == len(lev)-1:
-			rebuild_str += str(num) + "]"*l_dep
-			break
+# 		#Check end of input text
+# 		if i == len(lev)-1:
+# 			rebuild_str += str(num) + "]"*l_dep
+# 			break
 
-		#Check if current level is same as previous level
-		if l_dep == lev[i-1][1]:
-			rebuild_str += str(num) + "]"*(l_dep - lev[i+1][1]) + ","
-			continue
+# 		#Check if current level is same as previous level
+# 		if l_dep == lev[i-1][1]:
+# 			rebuild_str += str(num) + "]"*(l_dep - lev[i+1][1]) + ","
+# 			continue
 
-		#Check if current level is deeper than previous level
-		if l_dep < lev[i-1][1]:
-			rebuild_str += "["*(l_dep - lev[i-1][1])
+# 		#Check if current level is deeper than previous level
+# 		if l_dep < lev[i-1][1]:
+# 			rebuild_str += "["*(l_dep - lev[i-1][1])
 		
-		#If the current level is shallower than the next level
-		elif l_dep > lev[i-1][1]:
-			rebuild_str += "["*(l_dep - lev[i-1][1]) + str(num) + ","
-
+# 		#If the current level is shallower than the next level
+# 		elif l_dep > lev[i-1][1]:
+# 			rebuild_str += "["*(l_dep - lev[i-1][1]) + str(num) + ","
 	
-	return eval(rebuild_str)				
+# 	return eval(rebuild_str)				
 
 
 
@@ -80,7 +79,7 @@ def reduce_list():
 	#Might want to make it recursive to feed into itself. 
 
 
-def explode():
+def explode(counts: list):
 	pass
 
 def split():
@@ -94,8 +93,10 @@ def magnitude():
 data = data_load()
 for i, line in enumerate(data):
 	test = list(get_depths(line))
-	test_dos = rebuild_levels(test)
-	print(line == test_dos)
+
+	if any(pair[1] == 4 for pair in test):
+		esploded = explode(test)
+
 	
 
 #Plan of attack. 
