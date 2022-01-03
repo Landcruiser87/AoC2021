@@ -14,7 +14,7 @@ import numpy as np
 
 # ./day_18/
 def data_load():
-	with open('./day_18/test_data.txt', 'r') as f:
+	with open('test_data.txt', 'r') as f:
 		data = f.read().splitlines()
 		data = [eval(line) for line in data]
 	return data
@@ -26,8 +26,18 @@ def get_depths(lev, depth = 0):
 		for sublist in lev:
 			yield from get_depths(sublist, depth + 1)
 
- 
 # depth_list = [[0,'Hips'],[1,'Spine'],[2,'Spine1'],[3,'Spine2'],[4,'Neck'],[5,'Head'],[6,'HeadTop_End'],[4,'LeftShoulder']]
+			# pair_count += 1
+			# if pair_count <= 2:	
+			# 	output.extend([int_add])
+			# else:
+			# 	#!TODO Fix edge case here of multiple lists in a level
+			# 	output = output + int_add
+			# 	pair_count = 0
+
+def split_list(output:list)->(list, list):
+	return output[:len(output)//2], output[len(output)//2:]
+
 
 def construct(depth_list, current_level=1):
 	output = []
@@ -36,13 +46,12 @@ def construct(depth_list, current_level=1):
 		int_add, new_level = depth_list[0]
 		if new_level == current_level:
 			pair_count += 1
-			if pair_count <= 2:	
-				output.extend([int_add])
-				depth_list.pop(0)
+			if pair_count > 2:
+				return output
 			else:
-				output.append([int_add])
+				output.append(int_add)
 				depth_list.pop(0)
-				pair_count = 0
+
 
 		elif new_level > current_level:
 			child = construct(depth_list, new_level)
@@ -60,8 +69,14 @@ def run_part_A():
 	data = data_load()
 	for i, line in enumerate(data):
 		#Transforms list into a list of depth tuples
-		depths = list(get_depths(line))
-		print(construct(depths))
+		_open = 0
+		for ch in i:
+			if ch == '[':
+				_open += 1
+			elif ch == ']':
+				_open -= 1
+			
+
 		# if any(pair[1] == 4 for pair in depths):
 			# esploded = explode(test)
 		
